@@ -22,9 +22,6 @@ function wyswietl {
     echo "--------------------"
 }
 
-function wczytajGre {
-
-}
 
 function koniecGry {
     if [ $KONIEC -eq 1 ]
