@@ -90,10 +90,6 @@ do
         echo "Gra zapisana pod nazwą $saveFile, gra bedzie kontynuowana za 5s"
         sleep 5
     elif [ "$POLE" == "quit" ]; then
-        # KONIEC=4
-        # koniecGry
-        # zrobić wczytywanie gry
-    elif [ "$POLE" == "quit" ]; then
         KONIEC=4
         koniecGry
     else
