@@ -48,20 +48,6 @@ function koniecGry {
 	fi
 }
 
-function wczytaj {
-	n=0
-	while read line
-	do
-		if [ $n -le 8 ]
-		then
-			PLANSZA[$n]=$line
-			n=$(( $n + 1 ))
-		else
-			GRACZ=$line
-		fi
-	done < $SAVE
-}
-
 function sprawdzWygrana {
 
     if [[ "${PLANSZA[0]}" == 'X' ]] && [[ "${PLANSZA[1]}" == 'X' ]] && [[ "${PLANSZA[2]}" == 'X' ]] ; then KONIEC=1; koniecGry; fi
