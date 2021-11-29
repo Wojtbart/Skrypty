@@ -44,6 +44,7 @@ function koniecGry {
 	elif [ $KONIEC -eq 4 ]
 	then
 		echo "KONIEC GRY!!!"
+        sleep 2
         exit 0
 	fi
 }
