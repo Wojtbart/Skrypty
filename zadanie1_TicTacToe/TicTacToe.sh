@@ -3,6 +3,7 @@
 PLANSZA=("-" "-" "-" "-" "-" "-" "-" "-" "-")
 KONIEC=0
 arrForInputValue=()
+saveFile=""
 
 function wyswietl {
     clear
@@ -10,6 +11,7 @@ function wyswietl {
     echo "Tic Tac Toe"
     echo "JESTEŚ X, zaś komputer jest O"
 	echo -e "save - wpisanie powoduje zapisanie gry do pliku"
+    echo  "load - wczytanie zapisane gry, wczytanie tylko bieżącej zapisane gry"
     echo "quit - wpisanie powoduje zakonczenie gry"
     echo "Numery liczb na planszy:"
     echo  "0 1 2 "
@@ -18,7 +20,7 @@ function wyswietl {
     echo  "${PLANSZA[0]} ${PLANSZA[1]} ${PLANSZA[2]}"
     echo  "${PLANSZA[3]} ${PLANSZA[4]} ${PLANSZA[5]}"
     echo  "${PLANSZA[6]} ${PLANSZA[7]} ${PLANSZA[8]}"
-    echo "Wartości w tablicY: ${arrForInputValue[*]}"
+    # echo "Wartości w tablicY: ${arrForInputValue[*]}"
     echo "--------------------"
 }
 
@@ -44,6 +46,20 @@ function koniecGry {
 		echo "KONIEC GRY!!!"
         exit 0
 	fi
+}
+
+function wczytaj {
+	n=0
+	while read line
+	do
+		if [ $n -le 8 ]
+		then
+			PLANSZA[$n]=$line
+			n=$(( $n + 1 ))
+		else
+			GRACZ=$line
+		fi
+	done < $SAVE
 }
 
 function sprawdzWygrana {
@@ -92,6 +108,18 @@ do
     elif [ "$POLE" == "quit" ]; then
         KONIEC=4
         koniecGry
+    elif [ "$POLE" == "load" ]; then
+        n=0
+        while read line
+        do
+            if [ $n -le 8 ]
+            then
+                PLANSZA[$n]=$line
+                n=$(( $n + 1 ))
+            fi
+        done < $saveFile
+        echo "Wczytuje grę z pliku: $saveFile ..."
+        sleep 3
     else
         arrForInputValue+=($POLE)
         PLANSZA[$POLE]='X'
