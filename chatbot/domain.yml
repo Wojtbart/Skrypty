@@ -1,32 +1,108 @@
-version: "3.0"
-
-intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-
-
-responses:
-  utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
-
-  utter_goodbye:
-  - text: "Bye"
-
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-
+version: '3.0'
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+intents:
+- greet
+- affirm
+- deny
+- bot
+- quantity
+- open_hours
+- what_you_have
+- provide_number
+- order
+- size
+- ask_order
+- out_of_scope
+- goodbye
+
+entities:
+- name
+- size
+- quantity
+- number
+- food
+slots:
+  name:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: name
+  size:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: size
+  quantity:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: quantity
+  number:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: number
+  food:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: food
+responses:
+  utter_greet:
+  - text: Hey! How are you? Begin with Pojedzone :D
+  - text: Hey! What's up? Begin with Pojedzone :D
+  utter_cheer_up:
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_thanks:
+  - text: Thanks {name}! Your order no is {order}
+  utter_goodbye:
+  - text: Bye {name}! See you soon.
+  utter_ask_food:
+  - text: Which dish dou you prefer from the above list?
+  utter_ask_size:
+  - text: What size of meal do you like to have - 1)Regular 2)Medium 3)Large
+  utter_ask_quantity:
+  - text: How many quantities do you want?
+  - text: How many quantities?
+  utter_ask_name:
+  - text: Can you provide us your name please?
+  - text: What is your name?
+  - text: May I know your name please?
+  utter_ask_number:
+  - text: Will you give me your phone number?
+  utter_food:
+  - text: 'Your order: {quantity} {size} {food} will be ready soon! Please be patient.'
+  utter_iamabot:
+  - text: I am Gary, not a bot, i am super bot!!!
+  utter_out_of_scope:
+  - text: "Sorry i didn't understand you, please rephrase the sentence "
+  - text: "Sorry i didn't understand you, can you repeat it? "
+  - text: 'I can not understand you, repeat this! '
+actions:
+- utter_greet
+- utter_ask_name
+- utter_ask_size
+- utter_ask_food
+- utter_ask_quantity
+- action_ask_order
+- utter_food
+- action_submit_meal
+- action_order_id
+- utter_ask_number
+- utter_iamabot
+- utter_out_of_scope
+- action_opening_hours
+- utter_goodbye
+- utter_thanks

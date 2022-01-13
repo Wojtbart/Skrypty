@@ -1,5 +1,4 @@
 version: "3.0"
-
 nlu:
 - intent: greet
   examples: |
@@ -16,7 +15,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
 - intent: goodbye
   examples: |
     - good afternoon
@@ -30,17 +28,20 @@ nlu:
     - see you around
     - bye bye
     - see you later
-
+- intent: open_hours
+  examples: |
+    - what are the opening hours of the restaurant?
+    - when is the restaurant open?
+    - until when you can order a meal?
 - intent: what_you_have
   examples: |
-  - what i can get here?
-  - what i can to eat?
-  - what i can get for the lunch?
-  - what can i get for dinner?
-  - i want food
-  - do you have food?
-  - can i get food here?
-
+    - what i can get here?
+    - what i can to eat?
+    - what i can get for the lunch?
+    - what can i get for dinner?
+    - i want food
+    - do you have food?
+    - can i get food here?
 - intent: food
   examples: |
     - I want to order [lasagne](food)
@@ -50,7 +51,6 @@ nlu:
     - I like [spaghetti](food)
     - I like [spaghetti carbonara](food)
     - I want to order [tiramisu](food)
-
 - intent: affirm
   examples: |
     - yes
@@ -58,7 +58,6 @@ nlu:
     - of course
     - that sounds good
     - correct
-
 - intent: deny
   examples: |
     - no
@@ -67,7 +66,6 @@ nlu:
     - don't like that
     - no way
     - not really
-
 - intent: bot
   examples: |
     - Can i know your name?
@@ -77,23 +75,18 @@ nlu:
     - Am I talking to a bot?
     - am I talking to a human?
     - Hey bot, what is your name?
-
 - intent: quantity
   examples: |
     - [1](quantity)
     - [2](quantity)
     - i want [3](quantity) burgers
-
 - intent: out_of_scope
   examples: |
     - what is 2+2?
     - President of Poland?
     - Can you show me directions?
-
 - intent: ask_order
   examples: |
     - tell me the order id
     - what's my order number?
     - what is my order no?
-
-
