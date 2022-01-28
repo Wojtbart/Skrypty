@@ -13,7 +13,7 @@ W celu utworzenia plików do projektu została wykorzystana komenda;
 W pliku nginx.conf, znajduje się konfiguracja nginxa, który jest odpalany abyśmy się mogli łączyć do API,Aplikacja jest wystawiona lokalnie na porice 8080.
 Za start servera oraz wystartowanie głównego programu 'app.lua', gdzie została zawarta cała logika aplikacji odpowiada komenda:
 ` lapis server `
-![alt text](../img/komenda.JPG)
+![alt text](../img/komenda.jpg)
 
 
 Program łączy się z bazą danych PostgreSQL, modele zostały utworzone za pomocą 'lapis.db.model', konfig do połączenia się z bazą danych znajduje się w pliku config.lua
