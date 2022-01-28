@@ -10,8 +10,8 @@ Wykonane zostało API, gdzie mamy endpointy pod kategorie oraz produkty, są one
 
 W celu utworzenia plików do projektu została wykorzystana komenda:
 ` lapis new `.
-W pliku nginx.conf, znajduje się konfiguracja nginxa, który jest odpalany abyśmy się mogli łączyć do API. Aplikacja jest wystawiona lokalnie na porcie 8080.
-Za start servera oraz wystartowanie głównego programu 'app.lua', gdzie została zawarta cała logika aplikacji odpowiada komenda:
+W pliku nginx.conf, znajduje się konfiguracja nginxa, który jest uruchamiany aby móc łączyć się do API. Aplikacja jest wystawiona lokalnie na porcie 8080.
+Za start serwera oraz wystartowanie głównego programu 'app.lua', gdzie została zawarta cała logika aplikacji odpowiada komenda:
 ` lapis server ` 
 
 ![alt text](img/komenda.JPG)
