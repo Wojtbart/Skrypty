@@ -47,7 +47,3 @@ Wysyłanie zapytań do API:
 ![alt text](img/create.JPG)
 
 
-Koncowy widok tabeli:
-![alt text](img/produkty_koniec.JPG)
-
-
