@@ -1,6 +1,6 @@
 # REST API pod sklep Ecommerce w języku Lua z wykorzystaniem frameworka Lapis 
 
-Do wykonania programu wykorzystana został frameowrk Lapis.
+Do wykonania programu wykorzystana został framework Lapis.
 
 Wykonane zostało API, gdzie mamy endpointy pod kategorie oraz produkty, są one typu CRUD:
 * Create
@@ -12,12 +12,14 @@ W celu utworzenia plików do projektu została wykorzystana komenda:
 ` lapis new `.
 W pliku nginx.conf, znajduje się konfiguracja nginxa, który jest odpalany abyśmy się mogli łączyć do API. Aplikacja jest wystawiona lokalnie na porcie 8080.
 Za start servera oraz wystartowanie głównego programu 'app.lua', gdzie została zawarta cała logika aplikacji odpowiada komenda:
-` lapis server ` <br>
+` lapis server ` 
+
+<br />
 ![alt text](img/komenda.JPG)
 
 
 Program łączy się z bazą danych PostgreSQL, modele zostały utworzone za pomocą 'lapis.db.model'. Konfig do połączenia się z bazą danych znajduje się w pliku config.lua. 
-W postgresie zostały utworzoe dwie tabele: produkty oraz kategorie: <br>
+W postgresie zostały utworzoe dwie tabele: produkty oraz kategorie: <br />
 ![alt text](img/postgres.JPG)
 
 W celu wysłania metody GET do API używam przeglądarki, w celu wysłania metody POST używam programu Postman.
@@ -45,7 +47,7 @@ Wysyłanie zapytań do API:
 ![alt text](img/create.JPG)
 
 
-
+<br />
 Koncowy widok tabeli:
 ![alt text](img/produkty_koniec.JPG)
 
