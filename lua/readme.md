@@ -12,13 +12,14 @@ W celu utworzenia plików do projektu została wykorzystana komenda:
 ` lapis new `.
 W pliku nginx.conf, znajduje się konfiguracja nginxa, który jest odpalany abyśmy się mogli łączyć do API. Aplikacja jest wystawiona lokalnie na porcie 8080.
 Za start servera oraz wystartowanie głównego programu 'app.lua', gdzie została zawarta cała logika aplikacji odpowiada komenda:
-` lapis server `\
+` lapis server ` 
 
 ![alt text](img/komenda.JPG)
 
 
 Program łączy się z bazą danych PostgreSQL, modele zostały utworzone za pomocą 'lapis.db.model'. Konfig do połączenia się z bazą danych znajduje się w pliku config.lua. 
-W postgresie zostały utworzoe dwie tabele: produkty oraz kategorie: <br />
+W postgresie zostały utworzoe dwie tabele: produkty oraz kategorie: 
+
 ![alt text](img/postgres.JPG)
 
 W celu wysłania metody GET do API używam przeglądarki, w celu wysłania metody POST używam programu Postman.
@@ -42,11 +43,10 @@ Wysyłanie zapytań do API:
 * POST  /tabela_produkty/2 -> update  rekordu  o id=2 dla tabeli produkty
 ![alt text](img/update.JPG)
 
-* POST  /tabela_produkty -> stworzenie  rekordu  o id=4 dla tabeli produkty
+* POST  /tabela_produkty -> stworzenie  rekordu  o id=3 dla tabeli produkty
 ![alt text](img/create.JPG)
 
 
-<br />
 Koncowy widok tabeli:
 ![alt text](img/produkty_koniec.JPG)
 
