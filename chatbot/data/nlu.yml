@@ -6,15 +6,12 @@ nlu:
     - hello
     - hi
     - hello there
+    - hey there
+    - hey dude
     - good morning
     - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
     - good afternoon
+
 - intent: goodbye
   examples: |
     - good afternoon
@@ -28,29 +25,29 @@ nlu:
     - see you around
     - bye bye
     - see you later
-- intent: open_hours
-  examples: |
-    - what are the opening hours of the restaurant?
-    - when is the restaurant open?
-    - until when you can order a meal?
+
 - intent: what_you_have
   examples: |
     - what i can get here?
     - what i can to eat?
+    - make order
     - what i can get for the lunch?
     - what can i get for dinner?
-    - i want food
-    - do you have food?
-    - can i get food here?
-- intent: food
+    - I want to buy
+    - order
+    - i want to request order
+    - i wolud like to place an order
+    - i wolud like to make an order
+    - Make an order
+    - I want to order
+
+- intent: thank_you
   examples: |
-    - I want to order [lasagne](food)
-    - We like to have [pizza](food)
-    - I want  [hot-dog](food)
-    - I love [burger](food)
-    - I like [spaghetti](food)
-    - I like [spaghetti carbonara](food)
-    - I want to order [tiramisu](food)
+    - thank you
+    - thanks
+    - super
+    - ok
+
 - intent: affirm
   examples: |
     - yes
@@ -58,6 +55,7 @@ nlu:
     - of course
     - that sounds good
     - correct
+
 - intent: deny
   examples: |
     - no
@@ -66,6 +64,7 @@ nlu:
     - don't like that
     - no way
     - not really
+
 - intent: bot
   examples: |
     - Can i know your name?
@@ -75,18 +74,60 @@ nlu:
     - Am I talking to a bot?
     - am I talking to a human?
     - Hey bot, what is your name?
-- intent: quantity
-  examples: |
-    - [1](quantity)
-    - [2](quantity)
-    - i want [3](quantity) burgers
+
 - intent: out_of_scope
   examples: |
     - what is 2+2?
     - President of Poland?
     - Can you show me directions?
-- intent: ask_order
+
+- intent: ask_menu
   examples: |
-    - tell me the order id
-    - what's my order number?
+    - what you can eat with you
     - what is my order no?
+    - what is menu?
+    - give me your restaurant's menu
+    - what is menu
+    - menu
+    - show your menu
+    - What you have got in menu
+    - What is menu?
+
+- intent: open_hours
+  examples: |
+    - what are the opening hours of the restaurant?
+    - when is the restaurant open?
+
+- intent: open_hours_from_to
+  examples: |
+    - when will be opened today?
+    - until what time the restaurant is open?
+    - until what time you can order?
+
+- intent: order_list
+  examples: |
+    - hot-dog
+    - carbonara
+    - spaghetti
+    - tiramisu
+    - lasagne
+    - pizza
+    - burger
+    - spaghetti carbonara
+    - spagetti
+    - kebab
+    - fish and chips
+    - chicken soup
+    - prawns
+    - water
+    - bootle of wine
+    - steak
+    - hotdog
+    - Hot-dog
+    - beer
+
+
+
+
+
+

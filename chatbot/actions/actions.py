@@ -7,27 +7,20 @@
 from typing import Any, Text, Dict, List
 import json
 from pathlib import Path
+import datetime
 
-from rasa_sdk import Action, Tracker
-from rasa_sdk.events import SlotSet,EventType, Form
+from rasa_sdk import Action, Tracker, FormValidationAction
+from rasa_sdk.events import SlotSet, EventType, Form, AllSlotsReset
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.types import DomainDict
 
-class ActionOrderId(Action):
+
+class ActionGetMenu(Action):
     def name(self) -> Text:
-        return "action_order_id"
-
-    async def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        order_id=tracker.sender_id
-        dispatcher.utter_message("Your order number is {}".format(order_id))
-
-class ActionAskOrder(Action):
-    def name(self) -> Text:
-        return "action_ask_order"
+        return "action_menu"
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
         sentence=''
         with open("data/menu.json") as f:
         
@@ -44,8 +37,7 @@ class ActionOpeningHours(Action):
         return "action_opening_hours"
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
+            domain: Dict[Text, Any]):
         sentence=''
         with open("data/opening_hours.json") as f:
             data2=json.load(f)
@@ -60,49 +52,91 @@ class ActionOpeningHours(Action):
         return []
 
 
-class ActionFormInfo(Action):
-    def name(self)-> Text:
-        return "form info"
+class ActionOpeningHoursNow(Action):
+    def name(self) -> Text:
+        return "action_opening_hours_now"
 
-    @staticmethod
-    def required_slots(tracker: Tracker):
-        return ["food","size", "quantity", "number","name"]
-
-    def submit(self, dispatcher: CollectingDispatcher,tracker: Tracker,
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
             domain: Dict[Text, Any]):
-        dispatcher.utter_message(template="utter_thanks", name=tracker.get_slot('name'), 
-        order=tracker.sender_id)
-        dispatcher.utter_message(template="utter_food", quantity=tracker.get_slot('quantity'))
+        
+        sentence=''
+        with open("data/opening_hours.json") as f:
+            data=json.load(f)
 
+            date = datetime.datetime.now()
+            date_name = date.date().strftime("%A") # np. Sunday
+            open_time = data['items'][date_name]['open']
+            close_time = data['items'][date_name]['close']
+            sentence = "Restaurant is open in {} from {} to {}.".format(date_name, open_time, close_time)
+
+        dispatcher.utter_message(sentence)
         return []
 
-    def slot_mappings(self):
-        return {
-            "name": [self.from_entity(entity="name", intent='provide_name'), self.from_text()],
-            "food": [self.from_entity(entity="food", intent='food'), self.from_text()],
-            "quantity": [self.from_entity(entity="quantity", intent='quantity'), self.from_text()],
-            "number": [self.from_entity(entity="number", intent='provide_number'), self.from_text()]
-        }
 
+class ValidateRestaurantForm(FormValidationAction):
+    def name(self)-> Text:
+        return "validate_order_form"
 
+    async def required_slots(self, slotsInDomain, dispatcher,tracker,domain):
 
+        orderSlot = tracker.slots.get("orderSlot") # wartosc orderSlot
 
-# class ActionCheckExistence(Action):
+        orderCorrect = tracker.slots.get("orderCorrect") # wartosc orderCorrect
+        if orderSlot is not None: # orderSlot pusty
+            if orderCorrect is False: # orderCorrect niepoprawny
+                return ["orderStop", "orderCorrect"] + slotsInDomain
+            else:
+                return ["orderCorrect"] + slotsInDomain
+        return slotsInDomain
 
-#     def name(self) -> Text:
-#         return "action_get_food_from_user"
+   # orderSlot
+    async def extract_orderSlot(self, dispatcher,tracker,domain):
+        lastIntent = tracker.get_intent_of_latest_message() # przetwarza ostatnia intencje uzytkownika
+        orderSlot = tracker.slots.get("orderSlot") 
 
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        if lastIntent =="what_you_have": # jezeli intencja to what_you_have
+            return {"orderSlot": None}
+        elif orderSlot is not None:
+            return {"orderSlot": orderSlot}
+        else:
+            return {"orderSlot": tracker.latest_message['text']} 
 
-#         for blob in tracker.latest_message['entities']:
-            # print(tracker.latest_message)
-#             if blob['entity']=='food':
-#                 name=blob['value']
-#                 if name in self.data:
-#                     dispatcher.utter_message(text="Hello World!")
-#                 else:
-#                     dispatcher.utter_message(text="else Hello World!")
+    def validate_orderSlot(self,slotValue:Any, dispatcher: CollectingDispatcher,tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+        return {"orderSlot": tracker.get_slot("orderSlot")}
 
-#         return []  
+    # orderCorrect
+    async def extract_orderCorrect(self,dispatcher,tracker, domain):
+        lastIntent = tracker.get_intent_of_latest_message() # przetwarza ostatnia intencje uzytkownika
+        orderCorrect = tracker.get_slot("orderCorrect") # wartosc orderCorrect
+        if orderCorrect is not None:
+            return {"orderCorrect": orderCorrect}
+        return {"orderCorrect": lastIntent == "affirm"}
+
+    def validate_orderCorrect(self,slot_value, dispatcher,tracker,domain):
+        return {"orderSlot": tracker.get_slot("orderSlot"), "orderCorrect": tracker.get_slot("orderCorrect")}
+
+    # orderStop
+    async def extract_orderStop(self, dispatcher,tracker,domain):
+        lastIntent = tracker.get_intent_of_latest_message() # przetwarza ostatnia intencje uzytkownika
+        return {"orderStop": lastIntent == "affirm"}  #zgoda
+
+    def validate_orderStop(self,slot_value, dispatcher,tracker,domain):
+        orderStop = tracker.get_slot("orderStop") # wartosc orderStop
+        if not orderStop: # jezeli jest pusty
+            return {"orderSlot": None, "orderCorrect": None, "orderStop": None}
+
+        return {"orderSlot": tracker.get_slot("orderSlot"), "orderCorrect": tracker.get_slot("orderCorrect"), "orderStop": tracker.get_slot("orderStop")}
+
+class ActionGetMenu(Action):
+    def name(self) -> Text:
+        return "action_take_order"
+
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        if tracker.get_slot("orderStop") is not True: # jesli wartośc slotu 'orderSlot' jest pusta
+            dispatcher.utter_message("The order has been accepted and is being processed")
+        else:
+            dispatcher.utter_message("The order has been cancelled")
+        return [AllSlotsReset()] # resetuje wszystkie sloty
+
